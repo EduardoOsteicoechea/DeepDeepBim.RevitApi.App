@@ -8,9 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include=".github\workflows\uploadToS3.yaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
+    <Compile Remove=".github\**" />
+    <EmbeddedResource Remove=".github\**" />
+    <None Remove=".github\**" />
+    <Page Remove=".github\**" />
   </ItemGroup>
 
 </Project>
