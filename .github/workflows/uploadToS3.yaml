@@ -3,7 +3,7 @@
 on:
   push:
     branches:
-      - main # Triggers when you push to the main branch
+      - master # Triggers when you push to the main branch
 
 permissions:
   contents: read
