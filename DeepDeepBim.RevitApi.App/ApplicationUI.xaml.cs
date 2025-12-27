@@ -1,12 +1,11 @@
 ﻿using System.Windows.Controls;
 
-namespace DeepDeepBim.RevitApi.App
+namespace DeepDeepBim.RevitApi.App;
+
+public partial class ApplicationUI : UserControl
 {
-	public partial class ApplicationUI : UserControl
+	public ApplicationUI()
 	{
-		public ApplicationUI()
-		{
-			InitializeComponent();
-		}
+		InitializeComponent();
 	}
 }
