@@ -14,4 +14,8 @@
     <Page Remove=".github\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2025.0.0" />
+  </ItemGroup>
+
 </Project>
