@@ -9,7 +9,12 @@ class RevitApiAccessibilityTestCommand : IExternalCommand
 {
 	public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
 	{
-		TaskDialog.Show("Revit API Accessibility Test", "The Revit API is accessible from this external command.");
+		var doc = commandData.Application.ActiveUIDocument.Document;
+
+		TaskDialog.Show(
+			"Revit API Accessibility Test", 
+			$"{doc.Title}"
+		);
 
 		return Result.Succeeded;
 	}
