@@ -1,0 +1,49 @@
+﻿name: Deploy .NET Library to S3
+
+on:
+  push:
+    branches:
+      - main # Triggers when you push to the main branch
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: windows-latest # 'windows-latest' is safer for .NET Desktop/Revit libraries
+    
+    steps:
+      # 1. Checkout your code
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. Setup .NET 8
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      # 3. Build & Publish
+      # This compiles your code and puts the results in a folder named 'publish_output'
+      - name: Publish Library
+        run: dotnet publish -c Release -o ./publish_output
+
+      # 4. Configure AWS Credentials
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1 # Change if your bucket is in a different region
+
+      # 5. Upload to S3 (DLL & JSON Only)
+      - name: Deploy to S3
+        shell: pwsh
+        run: |
+          # The logic here is: Exclude everything, then include ONLY .dll and .json
+          # The --delete flag removes files from S3 that are no longer in your build
+          aws s3 sync ./publish_output s3://${{ secrets.AWS_S3_BUCKET }} `
+            --exclude "*" `
+            --include "*.dll" `
+            --include "*.json" `
+            --delete
